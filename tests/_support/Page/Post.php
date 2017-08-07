@@ -10,6 +10,17 @@ class Post
         $this->i = $I;
     }
 
+    protected $postId;
+    protected $postTitle;
+
+
+    /**
+     * @When I create and publish post :title :content
+     *
+     * @param $title
+     * @param $body
+     * @return mixed
+     */
     public function createNewPost($title, $body)
     {
         $this->i->amOnPage('wp-admin/post-new.php');
@@ -18,7 +29,9 @@ class Post
             'content' => $body
         ], 'publish');
         $this->i->see('Post published');
-        return $this->i->grabFromCurrentUrl('~post=(\d+)~');
+        $this->postTitle = $title;
+
+        return $this->postId = $this->i->grabFromCurrentUrl('~post=(\d+)~');
    }
 
     public function seePostIsInList($title)
@@ -33,6 +46,14 @@ class Post
         $this->i->dontSee($title, 'table.posts .row-title');
    }
 
-
+     /**
+      * @Then I should see it on site
+      */
+      public function iShouldSeeItOnSite()
+      {
+          if (!$this->postId) throw new \Exception("What is it???");
+          $this->i->amOnPage('/?p='.$this->postId);
+          $this->i->see($this->postTitle, 'h1');
+      }
 
 }

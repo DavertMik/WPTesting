@@ -20,9 +20,9 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    /**
+     * @Given I am logged in as blog administrator
+     */
     public function loginAsAdmin()
     {
         $this->amOnPage('/wp-admin');

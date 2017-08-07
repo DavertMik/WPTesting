@@ -20,8 +20,11 @@ class PostCest
     public function editPost(AcceptanceTester $I, \Page\Post $postPage)
     {
         $firstName = 'JustATitle';
+        $I->amGoingTo('create new post for editing');
         $id = $postPage->createNewPost($firstName, 'Some Body');
+        $I->expect('it is int the list');
         $postPage->seePostIsInList($firstName);
+        $I->amGoingTo('updtae the blogpost');
         $I->amOnPage("/wp-admin/post.php?post=$id&action=edit");
         $I->submitForm('#post', [
             'post_title' => sq('post2'),
