@@ -1,0 +1,4 @@
+actor: WebTester
+modules:
+    enabled:
+        - \Helper\Web
